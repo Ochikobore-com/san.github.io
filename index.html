@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San's Portfolio - ポートフォリオサイト</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#home">San's Portfolio</a>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">ホーム</a>
+                <a href="#about" class="nav-link">私について</a>
+                <a href="#skills" class="nav-link">スキル</a>
+                <a href="#projects" class="nav-link">プロジェクト</a>
+                <a href="#contact" class="nav-link">お問い合わせ</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">こんにちは、Sanです</h1>
+                <p class="hero-subtitle">Web開発者・プログラマー</p>
+                <p class="hero-description">
+                    創造的なWebソリューションを提供し、ユーザー体験を向上させることに情熱を注いでいます。
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">作品を見る</a>
+                    <a href="#contact" class="btn btn-secondary">お問い合わせ</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-circle">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 私についてセクション -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">私について</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        私はフルスタックWeb開発者として、モダンなWebアプリケーションの設計・開発に携わっています。
+                        ユーザーにとって使いやすく、美しいインターフェースの作成を心がけています。
+                    </p>
+                    <p>
+                        新しい技術への学習意欲が高く、常に最新のトレンドやベストプラクティスを追求しています。
+                        チームワークを大切にし、協力的な開発環境の構築に貢献します。
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <h3>3+</h3>
+                        <p>年の経験</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>20+</h3>
+                        <p>完成プロジェクト</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>10+</h3>
+                        <p>満足したクライアント</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- スキルセクション -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">スキル</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>フロントエンド</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-html5"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-css3-alt"></i>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-react"></i>
+                            <span>React</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>バックエンド</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-node-js"></i>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-database"></i>
+                            <span>Database</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-aws"></i>
+                            <span>AWS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>ツール</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-git-alt"></i>
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-docker"></i>
+                            <span>Docker</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code"></i>
+                            <span>VS Code</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-figma"></i>
+                            <span>Figma</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- プロジェクトセクション -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">プロジェクト</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Eコマースサイト</h3>
+                        <p>モダンなEコマースプラットフォームの開発。React、Node.js、MongoDBを使用。</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> ライブデモ
+                            </a>
+                            <a href="#" class="project-link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>モバイルアプリ</h3>
+                        <p>タスク管理モバイルアプリケーション。React Native、Firebaseを使用。</p>
+                        <div class="project-tags">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">TypeScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> ライブデモ
+                            </a>
+                            <a href="#" class="project-link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>データ可視化ツール</h3>
+                        <p>ビジネスデータを美しく可視化するWebアプリケーション。D3.js、Pythonを使用。</p>
+                        <div class="project-tags">
+                            <span class="tag">D3.js</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Flask</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> ライブデモ
+                            </a>
+                            <a href="#" class="project-link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お問い合わせセクション -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">お問い合わせ</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>お気軽にご連絡ください</h3>
+                    <p>新しいプロジェクトのご相談やお仕事のお話をお待ちしています。</p>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>san@example.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+81-90-1234-5678</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="お名前" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="メールアドレス" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="件名" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="メッセージ" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">送信</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 San's Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
