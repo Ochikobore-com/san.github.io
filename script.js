@@ -358,6 +358,203 @@ document.addEventListener('DOMContentLoaded', function() {
         
         statsObserver.observe(statsSection);
     }
+
+    // Bento UI Works フィルター機能
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const workCards = document.querySelectorAll('.work-card');
+
+    // フィルターボタンのクリックイベント
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // アクティブなボタンのクラスを更新
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // カードのフィルタリング
+            workCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    card.classList.remove('hidden');
+                    card.classList.add('visible');
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('visible');
+                }
+            });
+        });
+    });
+
+    // Works セクションのアニメーション
+    const worksObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = entry.target.querySelectorAll('.work-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s both`;
+                    }, index * 50);
+                });
+            }
+        });
+    }, { threshold: 0.2 });
+
+    const bentoGrid = document.querySelector('.bento-grid');
+    if (bentoGrid) {
+        worksObserver.observe(bentoGrid);
+    }
+
+    // ワークカードのパララックス効果
+    workCards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const deltaX = (x - centerX) / centerX;
+            const deltaY = (y - centerY) / centerY;
+            
+            const rotateX = deltaY * 10;
+            const rotateY = deltaX * 10;
+            
+            this.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale(1)';
+        });
+    });
+
+    // 動的カードシャッフル（オプション機能）
+    function shuffleBentoCards() {
+        const bentoGrid = document.querySelector('.bento-grid');
+        const cards = Array.from(bentoGrid.children);
+        
+        // Fisher-Yates シャッフルアルゴリズム
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        
+        // カードを再配置
+        cards.forEach(card => {
+            bentoGrid.appendChild(card);
+        });
+    }
+
+    // シャッフルボタンの作成（オプション）
+    function createShuffleButton() {
+        const shuffleBtn = document.createElement('button');
+        shuffleBtn.innerHTML = '<i class="fas fa-random"></i> シャッフル';
+        shuffleBtn.className = 'shuffle-btn';
+        shuffleBtn.style.cssText = `
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        `;
+        
+        const worksSection = document.querySelector('.works-section');
+        worksSection.style.position = 'relative';
+        worksSection.appendChild(shuffleBtn);
+        
+        shuffleBtn.addEventListener('click', () => {
+            shuffleBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                shuffleBentoCards();
+                shuffleBtn.style.transform = 'scale(1)';
+            }, 150);
+        });
+        
+        shuffleBtn.addEventListener('mouseenter', () => {
+            shuffleBtn.style.background = 'rgba(37, 99, 235, 1)';
+            shuffleBtn.style.transform = 'translateY(-2px)';
+        });
+        
+        shuffleBtn.addEventListener('mouseleave', () => {
+            shuffleBtn.style.background = 'rgba(37, 99, 235, 0.9)';
+            shuffleBtn.style.transform = 'translateY(0)';
+        });
+    }
+
+    // シャッフルボタンを有効にする（コメントアウト解除で使用可能）
+    // createShuffleButton();
+
+    // ワークカードのクリックでモーダル表示（今後の拡張用）
+    workCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // リンククリックでない場合のみモーダルを開く
+            if (!e.target.closest('.work-link')) {
+                const title = this.querySelector('h3').textContent;
+                const description = this.querySelector('p').textContent;
+                
+                // 簡単な詳細表示（今後モーダルに拡張可能）
+                console.log(`Project: ${title}`, `Description: ${description}`);
+                
+                // カード選択時の視覚的フィードバック
+                this.style.boxShadow = '0 30px 60px rgba(37, 99, 235, 0.3)';
+                setTimeout(() => {
+                    this.style.boxShadow = '';
+                }, 300);
+            }
+        });
+    });
+
+    // スクロール時のワークカード視差効果
+    function handleWorksParallax() {
+        if (window.innerWidth > 768) { // デスクトップのみ
+            const scrolled = window.pageYOffset;
+            const worksSection = document.querySelector('.works-section');
+            
+            if (worksSection) {
+                const rect = worksSection.getBoundingClientRect();
+                const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+                
+                if (isInView) {
+                    workCards.forEach((card, index) => {
+                        const speed = 0.1 + (index % 3) * 0.05; // カードごとに微妙に異なる速度
+                        const yPos = scrolled * speed;
+                        card.style.transform = `translateY(${yPos}px)`;
+                    });
+                }
+            }
+        }
+    }
+
+    // スクロールイベントにパララックス効果を追加
+    let parallaxTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!parallaxTicking) {
+            requestAnimationFrame(() => {
+                handleWorksParallax();
+                parallaxTicking = false;
+            });
+            parallaxTicking = true;
+        }
+    });
+
+    // レスポンシブ対応でパララックスをリセット
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 768) {
+            workCards.forEach(card => {
+                card.style.transform = '';
+            });
+        }
+    });
 });
 
 // CSSアニメーション用のスタイルを追加
