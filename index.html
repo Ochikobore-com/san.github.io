@@ -15,10 +15,9 @@
                 <a href="#home">San's Portfolio</a>
             </div>
             <div class="nav-menu">
-                <a href="#home" class="nav-link">ホーム</a>
+                <a href="#home" class="nav-link">Works</a>
                 <a href="#about" class="nav-link">私について</a>
                 <a href="#skills" class="nav-link">スキル</a>
-                <a href="#projects" class="nav-link">プロジェクト</a>
                 <a href="#contact" class="nav-link">お問い合わせ</a>
             </div>
             <div class="hamburger">
@@ -29,24 +28,166 @@
         </div>
     </nav>
 
-    <!-- ヒーローセクション -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
+    <!-- Worksセクション (Bento UI) - トップセクション -->
+    <section id="home" class="works-section hero-works">
+        <div class="container">
+            <div class="hero-intro">
                 <h1 class="hero-title">こんにちは、Sanです</h1>
                 <p class="hero-subtitle">Web開発者・プログラマー</p>
                 <p class="hero-description">
                     創造的なWebソリューションを提供し、ユーザー体験を向上させることに情熱を注いでいます。
                 </p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">作品を見る</a>
-                    <a href="#contact" class="btn btn-secondary">お問い合わせ</a>
+            </div>
+            
+            <h2 class="section-title works-title">Works</h2>
+            <div class="bento-grid" id="bentoGrid">
+                <!-- メインプロジェクト -->
+                <div class="work-card work-card-large" data-category="web">
+                    <div class="work-image">
+                        <div class="work-overlay">
+                            <div class="work-content">
+                                <h3>Eコマースプラットフォーム</h3>
+                                <p>フルスタック開発による現代的なオンラインショッピング体験</p>
+                                <div class="work-tags">
+                                    <span class="tag">React</span>
+                                    <span class="tag">Node.js</span>
+                                    <span class="tag">MongoDB</span>
+                                </div>
+                                <div class="work-links">
+                                    <a href="#" class="work-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="work-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- モバイルアプリ -->
+                <div class="work-card work-card-medium" data-category="mobile">
+                    <div class="work-image">
+                        <div class="work-overlay">
+                            <div class="work-content">
+                                <h3>TaskFlow App</h3>
+                                <p>効率的なタスク管理</p>
+                                <div class="work-tags">
+                                    <span class="tag">React Native</span>
+                                    <span class="tag">Firebase</span>
+                                </div>
+                                <div class="work-links">
+                                    <a href="#" class="work-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="work-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- データ可視化 -->
+                <div class="work-card work-card-medium" data-category="web">
+                    <div class="work-image">
+                        <div class="work-overlay">
+                            <div class="work-content">
+                                <h3>Analytics Dashboard</h3>
+                                <p>インタラクティブな データ可視化</p>
+                                <div class="work-tags">
+                                    <span class="tag">D3.js</span>
+                                    <span class="tag">Python</span>
+                                </div>
+                                <div class="work-links">
+                                    <a href="#" class="work-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="work-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ツールボックスアプリ -->
+                <div class="work-card work-card-small" data-category="mobile">
+                    <div class="work-image">
+                        <div class="work-overlay">
+                            <div class="work-content">
+                                <h3>ToolBox</h3>
+                                <p>実用的なツール集</p>
+                                <div class="work-tags">
+                                    <span class="tag">Swift</span>
+                                    <span class="tag">SwiftUI</span>
+                                </div>
+                                <div class="work-links">
+                                    <a href="#" class="work-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- フローマッパー -->
+                <div class="work-card work-card-small" data-category="desktop">
+                    <div class="work-image">
+                        <div class="work-overlay">
+                            <div class="work-content">
+                                <h3>FlowMapper</h3>
+                                <p>ワークフロー可視化</p>
+                                <div class="work-tags">
+                                    <span class="tag">Swift</span>
+                                    <span class="tag">macOS</span>
+                                </div>
+                                <div class="work-links">
+                                    <a href="#" class="work-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ポートフォリオサイト -->
+                <div class="work-card work-card-medium" data-category="web">
+                    <div class="work-image">
+                        <div class="work-overlay">
+                            <div class="work-content">
+                                <h3>Portfolio Site</h3>
+                                <p>モダンなレスポンシブ ポートフォリオ</p>
+                                <div class="work-tags">
+                                    <span class="tag">HTML5</span>
+                                    <span class="tag">CSS3</span>
+                                    <span class="tag">JavaScript</span>
+                                </div>
+                                <div class="work-links">
+                                    <a href="#" class="work-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="work-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="profile-circle">
-                    <i class="fas fa-user"></i>
-                </div>
+            
+            <!-- フィルター -->
+            <div class="work-filters">
+                <button class="filter-btn active" data-filter="all">すべて</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn" data-filter="desktop">Desktop</button>
             </div>
         </div>
     </section>
@@ -156,8 +297,8 @@
         </div>
     </section>
 
-    <!-- Worksセクション (Bento UI) -->
-    <section id="projects" class="works-section">
+    <!-- プロジェクトセクション（削除済み） -->
+    <section id="projects" class="works-section" style="display: none;">
         <div class="container">
             <h2 class="section-title">Works</h2>
             <div class="bento-grid" id="bentoGrid">
