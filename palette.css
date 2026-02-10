@@ -1,0 +1,411 @@
+
+/* neptune CSS */
+/* Background colors */
+.bg-neptune-50 {
+	background-color: #E0E7E7;
+}
+
+.bg-neptune-100 {
+	background-color: #DBE4E5;
+}
+
+.bg-neptune-200 {
+	background-color: #CCDDDF;
+}
+
+.bg-neptune-300 {
+	background-color: #B3D5D7;
+}
+
+.bg-neptune-400 {
+	background-color: #8FCDD3;
+}
+
+.bg-neptune-500 {
+	background-color: #6FBAC0;
+}
+
+.bg-neptune-600 {
+	background-color: #599AA0;
+}
+
+.bg-neptune-700 {
+	background-color: #527477;
+}
+
+.bg-neptune-800 {
+	background-color: #49585A;
+}
+
+.bg-neptune-900 {
+	background-color: #3F4444;
+}
+
+.bg-neptune-950 {
+	background-color: #3E4343;
+}
+
+/* Text colors */
+.color-neptune-50 {
+	color: #E0E7E7;
+}
+
+.color-neptune-100 {
+	color: #DBE4E5;
+}
+
+.color-neptune-200 {
+	color: #CCDDDF;
+}
+
+.color-neptune-300 {
+	color: #B3D5D7;
+}
+
+.color-neptune-400 {
+	color: #8FCDD3;
+}
+
+.color-neptune-500 {
+	color: #6FBAC0;
+}
+
+.color-neptune-600 {
+	color: #599AA0;
+}
+
+.color-neptune-700 {
+	color: #527477;
+}
+
+.color-neptune-800 {
+	color: #49585A;
+}
+
+.color-neptune-900 {
+	color: #3F4444;
+}
+
+.color-neptune-950 {
+	color: #3E4343;
+}
+
+/* Border colors */
+.border-color-neptune-50 {
+	border-color: #E0E7E7;
+}
+
+.border-color-neptune-100 {
+	border-color: #DBE4E5;
+}
+
+.border-color-neptune-200 {
+	border-color: #CCDDDF;
+}
+
+.border-color-neptune-300 {
+	border-color: #B3D5D7;
+}
+
+.border-color-neptune-400 {
+	border-color: #8FCDD3;
+}
+
+.border-color-neptune-500 {
+	border-color: #6FBAC0;
+}
+
+.border-color-neptune-600 {
+	border-color: #599AA0;
+}
+
+.border-color-neptune-700 {
+	border-color: #527477;
+}
+
+.border-color-neptune-800 {
+	border-color: #49585A;
+}
+
+.border-color-neptune-900 {
+	border-color: #3F4444;
+}
+
+.border-color-neptune-950 {
+	border-color: #3E4343;
+}
+
+
+/* meteorite CSS */
+/* Background colors */
+.bg-meteorite-50 {
+	background-color: #8E8995;
+}
+
+.bg-meteorite-100 {
+	background-color: #8B8395;
+}
+
+.bg-meteorite-200 {
+	background-color: #7F6F95;
+}
+
+.bg-meteorite-300 {
+	background-color: #6F5590;
+}
+
+.bg-meteorite-400 {
+	background-color: #5A3985;
+}
+
+.bg-meteorite-500 {
+	background-color: #442172;
+}
+
+.bg-meteorite-600 {
+	background-color: #2F0F59;
+}
+
+.bg-meteorite-700 {
+	background-color: #1D053C;
+}
+
+.bg-meteorite-800 {
+	background-color: #0F0121;
+}
+
+.bg-meteorite-900 {
+	background-color: #090114;
+}
+
+.bg-meteorite-950 {
+	background-color: #090114;
+}
+
+/* Text colors */
+.color-meteorite-50 {
+	color: #8E8995;
+}
+
+.color-meteorite-100 {
+	color: #8B8395;
+}
+
+.color-meteorite-200 {
+	color: #7F6F95;
+}
+
+.color-meteorite-300 {
+	color: #6F5590;
+}
+
+.color-meteorite-400 {
+	color: #5A3985;
+}
+
+.color-meteorite-500 {
+	color: #442172;
+}
+
+.color-meteorite-600 {
+	color: #2F0F59;
+}
+
+.color-meteorite-700 {
+	color: #1D053C;
+}
+
+.color-meteorite-800 {
+	color: #0F0121;
+}
+
+.color-meteorite-900 {
+	color: #090114;
+}
+
+.color-meteorite-950 {
+	color: #090114;
+}
+
+/* Border colors */
+.border-color-meteorite-50 {
+	border-color: #8E8995;
+}
+
+.border-color-meteorite-100 {
+	border-color: #8B8395;
+}
+
+.border-color-meteorite-200 {
+	border-color: #7F6F95;
+}
+
+.border-color-meteorite-300 {
+	border-color: #6F5590;
+}
+
+.border-color-meteorite-400 {
+	border-color: #5A3985;
+}
+
+.border-color-meteorite-500 {
+	border-color: #442172;
+}
+
+.border-color-meteorite-600 {
+	border-color: #2F0F59;
+}
+
+.border-color-meteorite-700 {
+	border-color: #1D053C;
+}
+
+.border-color-meteorite-800 {
+	border-color: #0F0121;
+}
+
+.border-color-meteorite-900 {
+	border-color: #090114;
+}
+
+.border-color-meteorite-950 {
+	border-color: #090114;
+}
+
+
+/* mountain mist CSS */
+/* Background colors */
+.bg-mountain-mist-50 {
+	background-color: #E3E4E4;
+}
+
+.bg-mountain-mist-100 {
+	background-color: #DFDFE0;
+}
+
+.bg-mountain-mist-200 {
+	background-color: #D3D4D4;
+}
+
+.bg-mountain-mist-300 {
+	background-color: #C1C1C3;
+}
+
+.bg-mountain-mist-400 {
+	background-color: #A9AAAD;
+}
+
+.bg-mountain-mist-500 {
+	background-color: #8E9093;
+}
+
+.bg-mountain-mist-600 {
+	background-color: #747577;
+}
+
+.bg-mountain-mist-700 {
+	background-color: #5C5D5E;
+}
+
+.bg-mountain-mist-800 {
+	background-color: #4A4A4B;
+}
+
+.bg-mountain-mist-900 {
+	background-color: #3A3A3A;
+}
+
+.bg-mountain-mist-950 {
+	background-color: #393A3A;
+}
+
+/* Text colors */
+.color-mountain-mist-50 {
+	color: #E3E4E4;
+}
+
+.color-mountain-mist-100 {
+	color: #DFDFE0;
+}
+
+.color-mountain-mist-200 {
+	color: #D3D4D4;
+}
+
+.color-mountain-mist-300 {
+	color: #C1C1C3;
+}
+
+.color-mountain-mist-400 {
+	color: #A9AAAD;
+}
+
+.color-mountain-mist-500 {
+	color: #8E9093;
+}
+
+.color-mountain-mist-600 {
+	color: #747577;
+}
+
+.color-mountain-mist-700 {
+	color: #5C5D5E;
+}
+
+.color-mountain-mist-800 {
+	color: #4A4A4B;
+}
+
+.color-mountain-mist-900 {
+	color: #3A3A3A;
+}
+
+.color-mountain-mist-950 {
+	color: #393A3A;
+}
+
+/* Border colors */
+.border-color-mountain-mist-50 {
+	border-color: #E3E4E4;
+}
+
+.border-color-mountain-mist-100 {
+	border-color: #DFDFE0;
+}
+
+.border-color-mountain-mist-200 {
+	border-color: #D3D4D4;
+}
+
+.border-color-mountain-mist-300 {
+	border-color: #C1C1C3;
+}
+
+.border-color-mountain-mist-400 {
+	border-color: #A9AAAD;
+}
+
+.border-color-mountain-mist-500 {
+	border-color: #8E9093;
+}
+
+.border-color-mountain-mist-600 {
+	border-color: #747577;
+}
+
+.border-color-mountain-mist-700 {
+	border-color: #5C5D5E;
+}
+
+.border-color-mountain-mist-800 {
+	border-color: #4A4A4B;
+}
+
+.border-color-mountain-mist-900 {
+	border-color: #3A3A3A;
+}
+
+.border-color-mountain-mist-950 {
+	border-color: #393A3A;
+}
+
