@@ -36,28 +36,73 @@
         </nav>
     </aside>
 
-    <!-- メインコンテンツエリア -->
-    <main class="main-content" role="main" aria-label="作品一覧">
-        <section class="works-grid" id="worksGrid" aria-live="polite" aria-label="カテゴリー別作品表示">
-            <article class="work-item" tabindex="0" role="button" aria-label="作品1を表示">
-                <div class="work-image" aria-hidden="true"></div>
-            </article>
-            <article class="work-item" tabindex="0" role="button" aria-label="作品2を表示">
-                <div class="work-image" aria-hidden="true"></div>
-            </article>
-            <article class="work-item" tabindex="0" role="button" aria-label="作品3を表示">
-                <div class="work-image" aria-hidden="true"></div>
-            </article>
-            <article class="work-item" tabindex="0" role="button" aria-label="作品4を表示">
-                <div class="work-image" aria-hidden="true"></div>
-            </article>
-            <article class="work-item" tabindex="0" role="button" aria-label="作品5を表示">
-                <div class="work-image" aria-hidden="true"></div>
-            </article>
-            <article class="work-item" tabindex="0" role="button" aria-label="作品6を表示">
-                <div class="work-image" aria-hidden="true"></div>
-            </article>
-        </section>
+    <!-- メインコンテンツエリア - カルーセル -->
+    <main class="main-content" role="main" aria-label="作品カルーセル">
+        <div class="carousel-container" id="carouselContainer">
+            <div class="carousel-track" id="carouselTrack">
+                <article class="carousel-slide active" data-category="ux" role="img" aria-label="作品1: UXデザインプロジェクト">
+                    <div class="slide-content">
+                        <div class="slide-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <div class="slide-info">
+                            <h2 class="slide-title">UX Design Project</h2>
+                            <p class="slide-description">モバイルアプリのユーザーエクスペリエンス設計</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="carousel-slide" data-category="ui" role="img" aria-label="作品2: UIデザインプロジェクト">
+                    <div class="slide-content">
+                        <div class="slide-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <div class="slide-info">
+                            <h2 class="slide-title">UI Design Interface</h2>
+                            <p class="slide-description">Webアプリケーションのインターフェース設計</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="carousel-slide" data-category="graphic" role="img" aria-label="作品3: グラフィックデザイン">
+                    <div class="slide-content">
+                        <div class="slide-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                        <div class="slide-info">
+                            <h2 class="slide-title">Brand Identity</h2>
+                            <p class="slide-description">ブランドアイデンティティデザインプロジェクト</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="carousel-slide" data-category="exhibition" role="img" aria-label="作品4: 展示デザイン">
+                    <div class="slide-content">
+                        <div class="slide-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                        <div class="slide-info">
+                            <h2 class="slide-title">Exhibition Design</h2>
+                            <p class="slide-description">インタラクティブ展示空間のデザイン</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="carousel-slide" data-category="ux" role="img" aria-label="作品5: UXリサーチプロジェクト">
+                    <div class="slide-content">
+                        <div class="slide-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                        <div class="slide-info">
+                            <h2 class="slide-title">User Research</h2>
+                            <p class="slide-description">ユーザー調査とプロトタイピング</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="carousel-slide" data-category="ui" role="img" aria-label="作品6: モバイルUIデザイン">
+                    <div class="slide-content">
+                        <div class="slide-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                        <div class="slide-info">
+                            <h2 class="slide-title">Mobile UI Design</h2>
+                            <p class="slide-description">モバイルファーストのUIデザイン</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- カルーセルナビゲーション -->
+            <div class="carousel-nav">
+                <button class="carousel-prev" id="prevBtn" aria-label="前のスライド">←</button>
+                <div class="carousel-indicators" id="indicators"></div>
+                <button class="carousel-next" id="nextBtn" aria-label="次のスライド">→</button>
+            </div>
+        </div>
     </main>
 
     <!-- ボトムバー -->

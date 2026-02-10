@@ -1,41 +1,376 @@
-// ボトムバーの切り替え機能
+// カルーセル機能とページナビゲーション
 document.addEventListener('DOMContentLoaded', function() {
-    const navButtons = document.querySelectorAll('.nav-button');
+    // 要素の取得
+    const carousel = document.getElementById('carouselContainer');
+    const carouselTrack = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const indicatorsContainer = document.getElementById('indicators');
     const sidebarNavLinks = document.querySelectorAll('.nav-link');
-    const worksGrid = document.getElementById('worksGrid');
+    const navButtons = document.querySelectorAll('.nav-button');
     
-    // サイドバーナビゲーションのクリックイベント
-    sidebarNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault(); // aタグのデフォルト動作を防ぐ
+    // カルーセル設定
+    let currentSlide = 0;
+    let autoPlayInterval;
+    const autoPlayDelay = 4000; // 4秒間隔で自動切り替え
+    let isAutoPlaying = true;
+    
+    // 初期化
+    initCarousel();
+    initSidebarNavigation();
+    initBottomNavigation();
+    
+    // カルーセル初期化
+    function initCarousel() {
+        // インディケーターを生成
+        createIndicators();
+        
+        // 最初のスライドをアクティブに
+        updateSlide(0);
+        
+        // イベントリスナーを設定
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        
+        // タッチ/スワイプ対応
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+        
+        if (carousel) {
+            carousel.addEventListener('touchstart', handleTouchStart, { passive: true });
+            carousel.addEventListener('touchmove', handleTouchMove, { passive: false });
+            carousel.addEventListener('touchend', handleTouchEnd, { passive: true });
             
-            // すべてのサイドバーリンクからactiveクラスを削除
-            sidebarNavLinks.forEach(navLink => navLink.classList.remove('active'));
-            
-            // クリックされたリンクにactiveクラスを追加
-            this.classList.add('active');
-            
-            // ページに応じてコンテンツを切り替え
-            const page = this.getAttribute('data-page');
-            switchPage(page);
+            // マウスイベント（デスクトップ用）
+            carousel.addEventListener('mousedown', handleMouseDown);
+            carousel.addEventListener('mousemove', handleMouseMove);
+            carousel.addEventListener('mouseup', handleMouseUp);
+            carousel.addEventListener('mouseleave', handleMouseUp);
+        }
+        
+        // 自動再生開始
+        startAutoPlay();
+        
+        // ホバー時の自動再生停止
+        if (carousel) {
+            carousel.addEventListener('mouseenter', stopAutoPlay);
+            carousel.addEventListener('mouseleave', startAutoPlay);
+        }
+    }
+    
+    // インディケーター生成
+    function createIndicators() {
+        if (!indicatorsContainer) return;
+        
+        indicatorsContainer.innerHTML = '';
+        slides.forEach((_, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('carousel-indicator');
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
         });
-    });
+    }
     
-    // 各ボトムナビボタンにクリックイベントを追加
-    navButtons.forEach((button, index) => {
-        button.addEventListener('click', function() {
-            updateActiveButton(this);
-            const category = this.getAttribute('data-category');
-            filterWorks(category);
+    // スライド更新
+    function updateSlide(index, direction = 'next') {
+        if (!carouselTrack || slides.length === 0) return;
+        
+        // 範囲チェック
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        
+        currentSlide = index;
+        
+        // スライドの表示/非表示
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === currentSlide);
         });
         
-        // キーボードナビゲーション対応
-        button.addEventListener('keydown', function(e) {
-            handleTabNavigation(e, index);
+        // インディケーター更新
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        indicators.forEach((indicator, i) => {
+            indicator.classList.toggle('active', i === currentSlide);
         });
-    });
+        
+        // トラック位置更新
+        const translateX = -currentSlide * 100;
+        carouselTrack.style.transform = `translateX(${translateX}%)`;
+        
+        // ARIA属性更新
+        slides.forEach((slide, i) => {
+            slide.setAttribute('aria-hidden', i !== currentSlide);
+        });
+    }
     
-    // ARIA属性とアクティブ状態を更新する関数
+    // 次のスライドに移動
+    function nextSlide() {
+        updateSlide(currentSlide + 1, 'next');
+    }
+    
+    // 前のスライドに移動
+    function prevSlide() {
+        updateSlide(currentSlide - 1, 'prev');
+    }
+    
+    // 指定スライドに移動
+    function goToSlide(index) {
+        updateSlide(index);
+    }
+    
+    // 自動再生開始
+    function startAutoPlay() {
+        if (!isAutoPlaying) return;
+        stopAutoPlay();
+        autoPlayInterval = setInterval(nextSlide, autoPlayDelay);
+    }
+    
+    // 自動再生停止
+    function stopAutoPlay() {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
+    }
+    
+    // タッチイベント処理
+    function handleTouchStart(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        stopAutoPlay();
+    }
+    
+    function handleTouchMove(e) {
+        if (!isDragging) return;
+        
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const diffX = startX - currentX;
+        const diffY = startY - currentY;
+        
+        // 水平スワイプかどうかチェック
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            e.preventDefault(); // 縦スクロールを防ぐ
+        }
+    }
+    
+    function handleTouchEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        const threshold = 50; // スワイプ判定の閾値
+        
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) {
+                nextSlide(); // 左スワイプで次へ
+            } else {
+                prevSlide(); // 右スワイプで前へ
+            }
+        }
+        
+        startAutoPlay();
+    }
+    
+    // マウスイベント処理（デスクトップ用）
+    function handleMouseDown(e) {
+        startX = e.clientX;
+        isDragging = true;
+        stopAutoPlay();
+        e.preventDefault();
+    }
+    
+    function handleMouseMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+    }
+    
+    function handleMouseUp(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const diff = startX - e.clientX;
+        const threshold = 50;
+        
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+        
+        startAutoPlay();
+    }
+    
+    // サイドバーナビゲーション初期化
+    function initSidebarNavigation() {
+        sidebarNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // アクティブ状態更新
+                sidebarNavLinks.forEach(navLink => navLink.classList.remove('active'));
+                this.classList.add('active');
+                
+                // ページ切り替え
+                const page = this.getAttribute('data-page');
+                switchPage(page);
+            });
+        });
+    }
+    
+    // ボトムナビゲーション初期化
+    function initBottomNavigation() {
+        navButtons.forEach((button, index) => {
+            button.addEventListener('click', function() {
+                updateActiveButton(this);
+                const category = this.getAttribute('data-category');
+                filterSlidesByCategory(category);
+            });
+            
+            // キーボードナビゲーション
+            button.addEventListener('keydown', function(e) {
+                handleTabNavigation(e, index);
+            });
+        });
+    }
+    
+    // ページ切り替え
+    function switchPage(page) {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+        
+        // フェードアウト
+        mainContent.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            switch(page) {
+                case 'works':
+                    showWorksPage();
+                    break;
+                case 'about':
+                    showAboutPage();
+                    break;
+                case 'hobby':
+                    showHobbyPage();
+                    break;
+                default:
+                    showWorksPage();
+            }
+            
+            // フェードイン
+            mainContent.style.opacity = '1';
+        }, 200);
+    }
+    
+    // Worksページ表示
+    function showWorksPage() {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+        
+        mainContent.innerHTML = `
+            <div class="carousel-container" id="carouselContainer">
+                <div class="carousel-track" id="carouselTrack">
+                    ${generateSlidesHTML()}
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-prev" id="prevBtn" aria-label="前のスライド">←</button>
+                    <div class="carousel-indicators" id="indicators"></div>
+                    <button class="carousel-next" id="nextBtn" aria-label="次のスライド">→</button>
+                </div>
+            </div>
+        `;
+        
+        // カルーセルを再初期化
+        setTimeout(() => {
+            location.reload(); // 簡易的にページリロードで再初期化
+        }, 100);
+    }
+    
+    // スライドHTML生成
+    function generateSlidesHTML() {
+        const slidesData = [
+            { category: 'ux', title: 'UX Design Project', description: 'モバイルアプリのユーザーエクスペリエンス設計', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+            { category: 'ui', title: 'UI Design Interface', description: 'Webアプリケーションのインターフェース設計', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+            { category: 'graphic', title: 'Brand Identity', description: 'ブランドアイデンティティデザインプロジェクト', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+            { category: 'exhibition', title: 'Exhibition Design', description: 'インタラクティブ展示空間のデザイン', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' },
+            { category: 'ux', title: 'User Research', description: 'ユーザー調査とプロトタイピング', gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
+            { category: 'ui', title: 'Mobile UI Design', description: 'モバイルファーストのUIデザイン', gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }
+        ];
+        
+        return slidesData.map((slide, index) => `
+            <article class="carousel-slide ${index === 0 ? 'active' : ''}" data-category="${slide.category}">
+                <div class="slide-content">
+                    <div class="slide-image" style="background: ${slide.gradient};"></div>
+                    <div class="slide-info">
+                        <h2 class="slide-title">${slide.title}</h2>
+                        <p class="slide-description">${slide.description}</p>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+    }
+    
+    // Aboutページ表示
+    function showAboutPage() {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+        
+        mainContent.innerHTML = `
+            <div class="about-content">
+                <h2>About Me</h2>
+                <p>私はクリエイティブなデザイナーとして、UX/UI、グラフィックデザイン、展示デザインなど幅広い分野で活動しています。ユーザー中心のデザイン思考を大切にし、革新的で実用的なソリューションを提供することを目指しています。</p>
+                <br>
+                <p>デザインを通じて人々の生活をより良くし、意味のあるコミュニケーションを創造することが私の使命です。</p>
+            </div>
+        `;
+    }
+    
+    // Hobbyページ表示
+    function showHobbyPage() {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+        
+        mainContent.innerHTML = `
+            <div class="hobby-content">
+                <h2>My Hobbies</h2>
+                <ul class="hobby-list">
+                    <li><a href="#photography">Photography</a></li>
+                    <li><a href="#music">Music Production</a></li>
+                    <li><a href="#travel">Travel & Culture</a></li>
+                    <li><a href="#reading">Reading & Learning</a></li>
+                    <li><a href="#cooking">Cooking</a></li>
+                </ul>
+            </div>
+        `;
+    }
+    
+    // カテゴリーフィルタリング
+    function filterSlidesByCategory(category) {
+        const slides = document.querySelectorAll('.carousel-slide');
+        let visibleSlides = [];
+        
+        slides.forEach(slide => {
+            const slideCategory = slide.getAttribute('data-category');
+            if (slideCategory === category || category === 'all') {
+                visibleSlides.push(slide);
+                slide.style.display = 'block';
+            } else {
+                slide.style.display = 'none';
+            }
+        });
+        
+        // フィルタ後のスライドで最初のものをアクティブに
+        if (visibleSlides.length > 0) {
+            updateSlide(0);
+        }
+    }
+    
+    // ボタンのアクティブ状態更新
     function updateActiveButton(activeButton) {
         navButtons.forEach(btn => {
             btn.classList.remove('active');
@@ -48,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
         activeButton.setAttribute('tabindex', '0');
     }
     
-    // タブナビゲーションのハンドリング
+    // キーボードナビゲーション
     function handleTabNavigation(e, currentIndex) {
         let targetIndex;
         
@@ -78,283 +413,88 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
         }
         
-        // フォーカスを移動し、自動的にアクティブ状態に切り替え
         const targetButton = navButtons[targetIndex];
         targetButton.focus();
         updateActiveButton(targetButton);
         const category = targetButton.getAttribute('data-category');
-        filterWorks(category);
-        
-        // フォーカス移動をクリックとして扱う
-        targetButton.click();
+        filterSlidesByCategory(category);
     }
     
-    // ページ切り替え機能
-    function switchPage(page) {
-        // アニメーション付きでコンテンツを切り替え
-        worksGrid.style.opacity = '0.5';
-        
-        setTimeout(() => {
-            // ページに応じて異なるコンテンツを表示
-            switch(page) {
-                case 'works':
-                    showWorksPage();
-                    break;
-                case 'about':
-                    showAboutPage();
-                    break;
-                case 'hobby':
-                    showHobbyPage();
-                    break;
-                default:
-                    showWorksPage();
-            }
-            
-            // フェードインアニメーション
-            worksGrid.style.opacity = '1';
-        }, 200);
-    }
+    // キーボードショートカット
+    document.addEventListener('keydown', function(e) {
+        // カルーセルのキーボード操作
+        switch(e.key) {
+            case 'ArrowLeft':
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+                break;
+            case 'ArrowRight':
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    nextSlide();
+                }
+                break;
+            case ' ':
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    // スペースキーで自動再生のトグル
+                    if (isAutoPlaying) {
+                        stopAutoPlay();
+                        isAutoPlaying = false;
+                    } else {
+                        startAutoPlay();
+                        isAutoPlaying = true;
+                    }
+                }
+                break;
+        }
+    });
     
-    // Worksページ表示
-    function showWorksPage() {
-        worksGrid.innerHTML = `
-            <div class="work-item">
-                <div class="work-image"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image"></div>
-            </div>
-        `;
-    }
-    
-    // Aboutページ表示
-    function showAboutPage() {
-        worksGrid.innerHTML = `
-            <div class="about-content">
-                <h2>About Me</h2>
-                <p>私について紹介するページです。</p>
-            </div>
-        `;
-    }
-    
-    // Hobbyページ表示
-    function showHobbyPage() {
-        worksGrid.innerHTML = `
-            <div class="hobby-content">
-                <h2>My Hobbies</h2>
-                <ul class="hobby-list">
-                    <li><a href="#photography">Photography</a></li>
-                    <li><a href="#music">Music</a></li>
-                    <li><a href="#travel">Travel</a></li>
-                    <li><a href="#reading">Reading</a></li>
-                </ul>
-            </div>
-        `;
-    }
-    
-    // コンテンツフィルター機能
-    function filterWorks(category) {
-        const workItems = document.querySelectorAll('.work-item');
-        
-        // アニメーション付きでコンテンツを切り替え
-        worksGrid.style.opacity = '0.5';
-        
-        setTimeout(() => {
-            // カテゴリに応じて異なるレイアウトやコンテンツを表示
-            switch(category) {
-                case 'ux':
-                    showUXWorks();
-                    break;
-                case 'ui':
-                    showUIWorks();
-                    break;
-                case 'graphic':
-                    showGraphicWorks();
-                    break;
-                case 'exhibition':
-                    showExhibitionWorks();
-                    break;
-            }
-            
-            // フェードインアニメーション
-            worksGrid.style.opacity = '1';
-        }, 200);
-    }
-    
-    // すべての作品を表示
-    function showAllWorks() {
-        const workItems = document.querySelectorAll('.work-item');
-        workItems.forEach((item, index) => {
-            item.style.display = 'block';
-            item.style.animationDelay = `${index * 0.1}s`;
-        });
-    }
-    
-    // モバイル作品を表示
-    function showMobileWorks() {
-        const workItems = document.querySelectorAll('.work-item');
-        workItems.forEach((item, index) => {
-            if (index % 3 === 0) {
-                item.style.display = 'block';
-                item.style.animationDelay = `${index * 0.1}s`;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-        // 追加のモバイル用コンテンツがあれば表示
-        addMobileContent();
-    }
-    
-    // ウェブ作品を表示
-    function showWebWorks() {
-        const workItems = document.querySelectorAll('.work-item');
-        workItems.forEach((item, index) => {
-            if (index % 2 === 0) {
-                item.style.display = 'block';
-                item.style.animationDelay = `${index * 0.1}s`;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-        // 追加のウェブ用コンテンツがあれば表示
-        addWebContent();
-    }
-    
-    // モバイル用の追加コンテンツ
-    function addMobileContent() {
-        // 必要に応じてモバイル専用のコンテンツを動的に追加
-    }
-    
-    // UX作品を表示
-    function showUXWorks() {
-        worksGrid.innerHTML = `
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
-            </div>
-        `;
-    }
-    
-    // UI作品を表示
-    function showUIWorks() {
-        worksGrid.innerHTML = `
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #ff8a80 0%, #ffab91 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #81c784 0%, #aed581 100%);"></div>
-            </div>
-        `;
-    }
-    
-    // グラフィック作品を表示
-    function showGraphicWorks() {
-        worksGrid.innerHTML = `
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #ffebbf 0%, #f0f2f0 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);"></div>
-            </div>
-        `;
-    }
-    
-    // エキシビション作品を表示
-    function showExhibitionWorks() {
-        worksGrid.innerHTML = `
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);"></div>
-            </div>
-            <div class="work-item">
-                <div class="work-image" style="background-image: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);"></div>
-            </div>
-        `;
-    }
-    
-    // ウェブ用の追加コンテンツ
-    function addWebContent() {
-        // 必要に応じてウェブ専用のコンテンツを動的に追加
-    }
-    
-    // サイドバーのクリック機能
-    const sidebarIcon = document.querySelector('.sidebar-icon');
-    if (sidebarIcon) {
-        sidebarIcon.addEventListener('click', function() {
-            // サイドバーの機能（戻る、メニューなど）
-            // 例: 前のページに戻る、メニューを開くなど
-            console.log('サイドバーがクリックされました');
-        });
-    }
-    
-    // スクロールトップ機能
-    function scrollToTop() {
-        worksGrid.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-    
-    // 初期表示
-    filterWorks('ux');
+    // ページ離脱時の自動再生停止
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            stopAutoPlay();
+        } else if (isAutoPlaying) {
+            startAutoPlay();
+        }
+    });
 });
 
-// 追加のユーティリティ関数
-function addWorkItem(imageUrl, title, category) {
-    const worksGrid = document.getElementById('worksGrid');
-    const workItem = document.createElement('div');
-    workItem.className = 'work-item';
-    workItem.setAttribute('data-category', category);
+// ユーティリティ関数
+function preloadImages() {
+    // 必要に応じて画像をプリロード
+    const imageUrls = [
+        // 画像URLのリスト
+    ];
     
-    workItem.innerHTML = `
-        <div class="work-image" style="background-image: url('${imageUrl}');">
-            <div class="work-title">${title}</div>
-        </div>
-    `;
-    
-    worksGrid.appendChild(workItem);
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
 }
 
-// ローディング効果
-function showLoading() {
-    const worksGrid = document.getElementById('worksGrid');
-    worksGrid.innerHTML = '<div class="loading">読み込み中...</div>';
+// パフォーマンス最適化
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
-function hideLoading() {
-    const loadingElement = document.querySelector('.loading');
-    if (loadingElement) {
-        loadingElement.remove();
+// リサイズイベントの最適化
+const handleResize = debounce(() => {
+    // リサイズ時の処理
+    const carousel = document.getElementById('carouselContainer');
+    if (carousel) {
+        // 必要に応じてカルーセルの位置を調整
     }
-}
+}, 250);
+
+window.addEventListener('resize', handleResize);
