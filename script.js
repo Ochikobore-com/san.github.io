@@ -294,22 +294,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // スライドHTML生成
     function generateSlidesHTML() {
         const slidesData = [
-            { category: 'ux', title: 'UX Design Project', description: 'モバイルアプリのユーザーエクスペリエンス設計', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
-            { category: 'ui', title: 'UI Design Interface', description: 'Webアプリケーションのインターフェース設計', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
-            { category: 'graphic', title: 'Brand Identity', description: 'ブランドアイデンティティデザインプロジェクト', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
-            { category: 'exhibition', title: 'Exhibition Design', description: 'インタラクティブ展示空間のデザイン', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' },
-            { category: 'ux', title: 'User Research', description: 'ユーザー調査とプロトタイピング', gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
-            { category: 'ui', title: 'Mobile UI Design', description: 'モバイルファーストのUIデザイン', gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }
+            { category: 'ux', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+            { category: 'ui', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+            { category: 'graphic', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+            { category: 'exhibition', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' },
+            { category: 'ux', gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
+            { category: 'ui', gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }
         ];
         
         return slidesData.map((slide, index) => `
             <article class="carousel-slide ${index === 0 ? 'active' : ''}" data-category="${slide.category}">
                 <div class="slide-content">
                     <div class="slide-image" style="background: ${slide.gradient};"></div>
-                    <div class="slide-info">
-                        <h2 class="slide-title">${slide.title}</h2>
-                        <p class="slide-description">${slide.description}</p>
-                    </div>
                 </div>
             </article>
         `).join('');
