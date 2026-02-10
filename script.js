@@ -278,9 +278,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${generateSlidesHTML()}
                 </div>
                 <div class="carousel-nav">
-                    <button class="carousel-prev" id="prevBtn" aria-label="前のスライド">←</button>
+                    <button class="carousel-prev" id="prevBtn" aria-label="前のスライド">
+                        <span class="material-symbols-outlined">arrow_back_ios</span>
+                    </button>
                     <div class="carousel-indicators" id="indicators"></div>
-                    <button class="carousel-next" id="nextBtn" aria-label="次のスライド">→</button>
+                    <button class="carousel-next" id="nextBtn" aria-label="次のスライド">
+                        <span class="material-symbols-outlined">arrow_forward_ios</span>
+                    </button>
                 </div>
             </div>
         `;
